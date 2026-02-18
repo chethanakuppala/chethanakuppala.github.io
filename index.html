@@ -1,19 +1,197 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-  <title>Chethana Kuppala — Portfolio</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Chethana Kuppala — BI Portfolio</title>
+
+  <!-- Google Font (system fallback included) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #f7f8fb;
+      --card: #ffffff;
+      --muted: #586069;
+      --accent: #0b5fff;
+      --radius: 12px;
+      --max: 980px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:#0b1220;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      padding:48px 20px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .wrap{width:100%;max-width:var(--max)}
+    header{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap:18px;
+      margin-bottom:34px;
+    }
+    .title{
+      margin:0;
+    }
+    .title h1{font-weight:700;font-size:28px;margin:0}
+    .title p{margin:6px 0 0;color:var(--muted);font-size:14px}
+
+    nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-weight:600;
+      margin-left:18px;
+      font-size:14px;
+    }
+    nav a.cta{
+      background:var(--accent);
+      color:white;
+      padding:8px 12px;
+      border-radius:10px;
+      text-decoration:none;
+      font-weight:600;
+      margin-left:12px;
+      box-shadow:0 6px 18px rgba(11,95,255,0.08);
+    }
+
+    main{display:grid;grid-template-columns:1fr 360px;gap:34px;align-items:start}
+    @media (max-width:900px){ main{grid-template-columns:1fr} header{flex-direction:column;align-items:flex-start} }
+
+    /* Left column */
+    .hero{
+      background:linear-gradient(180deg, rgba(11,95,255,0.02), transparent);
+      padding:28px;
+      border-radius:var(--radius);
+      border:1px solid rgba(11,95,255,0.04);
+    }
+    .hero h2{margin:0;font-size:22px;font-weight:700}
+    .hero p.lead{margin:10px 0 0;color:var(--muted);max-width:56ch}
+
+    /* Projects grid (cards) */
+    .projects{margin-top:22px;display:grid;gap:12px}
+    .card{
+      background:var(--card);
+      border-radius:12px;
+      padding:14px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      border:1px solid rgba(12,20,40,0.04);
+      box-shadow:0 6px 18px rgba(12,20,40,0.03);
+    }
+    .thumb{
+      width:74px;height:54px;border-radius:8px;background:#eef3ff;flex:0 0 74px;display:flex;align-items:center;justify-content:center;color:var(--accent);font-weight:700;font-size:12px;
+    }
+    .meta h4{margin:0;font-size:15px}
+    .meta p{margin:6px 0 0;color:var(--muted);font-size:13px}
+
+    /* Right column (aside) */
+    aside.aside{
+      position:relative;
+    }
+    .card-cta{
+      background:var(--card);
+      padding:18px;border-radius:12px;border:1px solid rgba(12,20,40,0.04);
+      box-shadow:0 6px 18px rgba(12,20,40,0.03);
+    }
+    .small{font-size:13px;color:var(--muted);margin:0}
+    .links{display:flex;gap:8px;margin-top:12px}
+    .links a{color:var(--accent);text-decoration:none;font-weight:600;font-size:14px}
+
+    footer{margin-top:28px;color:var(--muted);font-size:13px;text-align:center}
+    /* subtle focus styles for accessibility */
+    a:focus{outline:3px solid rgba(11,95,255,0.16);outline-offset:2px;border-radius:8px}
+
+  </style>
 </head>
 <body>
-  <h1>Chethana Kuppala</h1>
-  <p>BI Engineer | SQL | Python | R | Data Analytics</p>
+  <div class="wrap">
+    <header>
+      <div class="title">
+        <h1>Chethana Kuppala</h1>
+        <p>BI Engineer · SQL · Python · Data Analytics</p>
+      </div>
 
-  <h2>Projects</h2>
-  <ul>
-    <li>Sales Dashboard Project</li>
-    <li>Churn Analysis Project</li>
-    <li>Healthcare Analytics Project</li>
-  </ul>
+      <nav aria-label="primary">
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+        <a class="cta" href="assets/resume.pdf" download>Resume</a>
+      </nav>
+    </header>
 
-  <p>Contact: <a href="mailto:your-email@gmail.com">your-email@gmail.com</a></p>
+    <main>
+      <!-- left: hero + projects -->
+      <section>
+        <div class="hero" role="region" aria-labelledby="intro">
+          <h2 id="intro">I build dashboards & analytics that help teams decide faster.</h2>
+          <p class="lead">I design data models, automate ETL, and craft dashboards that answer questions (not just show numbers). Below are a few selected projects — click to view case studies or code.</p>
+
+          <div id="projects" class="projects" aria-label="Selected projects">
+            <!-- Project 1 -->
+            <article class="card">
+              <div class="thumb">SF</div>
+              <div class="meta">
+                <h4>Sales Forecast Dashboard</h4>
+                <p>Tableau · SQL · Forecasting — reduced inventory overstock by 18%.</p>
+              </div>
+            </article>
+
+            <!-- Project 2 -->
+            <article class="card">
+              <div class="thumb">CH</div>
+              <div class="meta">
+                <h4>Churn & Retention Cohorts</h4>
+                <p>Python · BigQuery — cohort funnels used to cut churn by ~7%.</p>
+              </div>
+            </article>
+
+            <!-- Project 3 -->
+            <article class="card">
+              <div class="thumb">HC</div>
+              <div class="meta">
+                <h4>Healthcare Resource Optimization</h4>
+                <p>R · SQL — resource allocation model and executive dashboard.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <footer>
+          <p>Want any project expanded into a case study page? I can generate one from bullets — tell me which project.</p>
+        </footer>
+      </section>
+
+      <!-- right: contact / quick links -->
+      <aside class="aside" aria-label="Contact & Links">
+        <div class="card-cta" role="region">
+          <p class="small">Email</p>
+          <p style="margin:6px 0 0;"><a href="mailto:your-email@gmail.com">your-email@gmail.com</a></p>
+
+          <div style="height:12px"></div>
+
+          <p class="small">Links</p>
+          <div class="links">
+            <a href="https://github.com/chethanakuppala" target="_blank" rel="noopener">GitHub</a>
+            <a href="https://www.linkedin.com/in/yourprofile" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+
+          <div style="height:14px"></div>
+
+          <p class="small">Resume</p>
+          <a class="links" href="assets/resume.pdf" download>Download PDF</a>
+        </div>
+      </aside>
+    </main>
+  </div>
 </body>
 </html>
