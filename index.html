@@ -1,39 +1,559 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="Chethana Kuppala — BI Engineer. Portfolio showcasing dashboards, analytics projects, and data engineering work." />
-  <title>Chethana Kuppala — BI Portfolio</title>
+import React, { useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  ArrowRight,
+  BadgeCheck,
+  Brain,
+  Cable,
+  ChevronDown,
+  Code2,
+  Cpu,
+  ExternalLink,
+  Github,
+  GraduationCap,
+  HardDrive,
+  Linkedin,
+  Mail,
+  MapPinned,
+  Play,
+  Rocket,
+  Search,
+  Shield,
+  Sparkles,
+  Star,
+  Terminal,
+  Trophy,
+  Workflow,
+  Zap,
+  Filter,
+  Menu,
+  BarChart3,
+  CircleDollarSign,
+  Smartphone,
+  Database,
+  Lock,
+  Layers3,
+} from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
-  <!-- Google Font (system fallback included) -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+const PROFILE = {
+  name: "CHETHANA KUPPALA",
+  title: "Data Storyteller. Process Optimizer. Analytics Builder.",
+  subtitle:
+    "I turn messy operations and complex finance data into clear dashboards, automation, and decisions that leaders can trust.",
+  location: "Columbia, SC (Open to Relocate)",
+  email: "ckuppala@email.sc.edu",
+  phone: "332-260-0753",
+  linkedin: "https://linkedin.com/in/your-linkedin",
+  github: "https://github.com/your-github",
+  photo: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1200&q=80",
+};
 
-  <style>
-    :root{
-      --bg: #f7f8fb;
-      --card: #ffffff;
-      --muted: #586069;
-      --accent: #0b5fff;
-      --radius: 12px;
-      --max: 980px;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      background:var(--bg);
-      color:#0b1220;
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.5;
-      padding:48px 20px;
-      display:flex;
-      justify-content:center;
-    }
+const STORY = [
+  {
+    id: 1,
+    chapter: "Chapter 01",
+    title: "The Dashboard Builder",
+    type: "Analytics",
+    difficulty: "Core Skill",
+    status: "Live",
+    year: "2025-2026",
+    summary:
+      "Graduate Assistant – Data Analyst at the University of South Carolina Student Success Center, where I built 10+ Power BI dashboards, improved reporting access by 30%, and automated recurring workflows to save 20+ hours each month.",
+    impact: "10+ dashboards",
+    badge: "Leadership visibility",
+    tags: ["Power BI", "SQL", "Power Automate", "RPA"],
+    icon: BarChart3,
+    accent: "cyan",
+    details: [
+      "Designed and maintained interactive executive dashboards.",
+      "Added SQL validation controls to improve data accuracy by 15%.",
+      "Converted manual reporting into automated workflows.",
+    ],
+    linkLabel: "View GitHub",
+    link: "https://github.com/your-github",
+  },
+  {
+    id: 2,
+    chapter: "Chapter 02",
+    title: "The Research Signal",
+    type: "Research",
+    difficulty: "Core Skill",
+    status: "Completed",
+    year: "2025",
+    summary:
+      "Graduate Research Assistant at USC’s Arnold School of Public Health, where SQL and Python analysis supported cost-pattern evaluation, reporting accuracy, and clear executive-ready visualizations.",
+    impact: "100% accuracy",
+    badge: "Data integrity",
+    tags: ["Python", "SQL", "SAS", "Visualization"],
+    icon: Brain,
+    accent: "violet",
+    details: [
+      "Performed regression and trend analysis on large utilization datasets.",
+      "Validated and reconciled financial data for consistent outputs.",
+      "Built reports for non-technical stakeholders.",
+    ],
+    linkLabel: "See case study",
+    link: "#contact",
+  },
+  {
+    id: 3,
+    chapter: "Chapter 03",
+    title: "The Operations Engineer",
+    type: "Analytics",
+    difficulty: "Core Skill",
+    status: "Completed",
+    year: "2025",
+    summary:
+      "Graduate Assistant (Analytics) in the Molinaroli College of Engineering, where I improved reporting accuracy, automated ETL prep, and built KPI dashboards that supported leadership decisions.",
+    impact: "25% less manual work",
+    badge: "Efficiency boost",
+    tags: ["ETL", "Power BI", "Python", "Governance"],
+    icon: Workflow,
+    accent: "emerald",
+    details: [
+      "Created SQL-driven validation and governance checks.",
+      "Automated data preparation across multi-year datasets.",
+      "Translated operational metrics into strategic insights.",
+    ],
+    linkLabel: "Open project",
+    link: "#contact",
+  },
+  {
+    id: 4,
+    chapter: "Chapter 04",
+    title: "The Market Strategist",
+    type: "Business Systems",
+    difficulty: "Applied",
+    status: "Completed",
+    year: "2024",
+    summary:
+      "Business Systems Analyst for Mobile Farmers Market, where I designed SQL-based data models, streamlined ETL workflows, and improved reporting turnaround time by 20%.",
+    impact: "20% faster reporting",
+    badge: "Process redesign",
+    tags: ["SQL", "ETL", "RPA", "Stakeholders"],
+    icon: CircleDollarSign,
+    accent: "amber",
+    details: [
+      "Built data models for operational reporting.",
+      "Redesigned workflow steps to improve accuracy.",
+      "Presented concise findings to leadership.",
+    ],
+    linkLabel: "Read more",
+    link: "#contact",
+  },
+  {
+    id: 5,
+    chapter: "Chapter 05",
+    title: "The Cisco IoT Mission",
+    type: "IoT",
+    difficulty: "Applied",
+    status: "Featured",
+    year: "2024-2025",
+    summary:
+      "Cisco Packet Tracer IoT project focused on connected-device logic, system simulation, and translating technical setup into a practical interactive experience.",
+    impact: "Interactive systems",
+    badge: "IoT simulation",
+    tags: ["Cisco Packet Tracer", "IoT", "Networking", "Simulation"],
+    icon: Cable,
+    accent: "sky",
+    details: [
+      "Simulated connected devices and event-driven behavior.",
+      "Used a systems-thinking approach to map workflows.",
+      "Great to showcase problem-solving beyond BI dashboards.",
+    ],
+    linkLabel: "Show project",
+    link: "#contact",
+  },
+  {
+    id: 6,
+    chapter: "Boss Level",
+    title: "USC Athletics: Fan & Ticketing Analytics",
+    type: "Project",
+    difficulty: "Boss Fight",
+    status: "Live",
+    year: "2025-Present",
+    summary:
+      "Project Manager & Analytics Storyteller for USC Athletics, where I analyze ticketing and financial data, build Power BI dashboards, improve forecast accuracy by 20%, and convert variance analysis into executive insights.",
+    impact: "20% forecast improvement",
+    badge: "Executive storytelling",
+    tags: ["SQL", "R", "Power BI", "Forecasting"],
+    icon: Trophy,
+    accent: "fuchsia",
+    details: [
+      "Analyzed revenue and fan engagement trends.",
+      "Built KPI dashboards for finance and operations.",
+      "Presented strategic findings using data storytelling.",
+    ],
+    linkLabel: "Open GitHub",
+    link: "https://github.com/your-github",
+    featured: true,
+  },
+];
 
-    .wrap{width:100%;max-width:var(--max)}
+const SKILLS = [
+  { name: "SQL", value: 93 },
+  { name: "Power BI", value: 95 },
+  { name: "Python", value: 86 },
+  { name: "Excel", value: 90 },
+  { name: "Power Automate", value: 84 },
+  { name: "RPA", value: 78 },
+  { name: "SAS", value: 80 },
+  { name: "R", value: 76 },
+];
+
+const QUESTS = [
+  "Scroll through the story like a playable campaign.",
+  "Use the filters to jump between analytics, research, IoT, and project leadership.",
+  "Open each mission to see the impact, tools, and summary.",
+  "End at the boss level: USC Athletics.",
+];
+
+const FEATURES = [
+  "Dark game UI",
+  "Scrollable story",
+  "Interactive mission cards",
+  "Boss-level project highlight",
+  "Photo-ready hero section",
+];
+
+export default function InteractivePortfolioQuest() {
+  const [selectedType, setSelectedType] = useState("All");
+  const [search, setSearch] = useState("");
+  const [selectedStory, setSelectedStory] = useState(STORY[5]);
+
+  const types = ["All", ...new Set(STORY.map((p) => p.type))];
+
+  const filtered = useMemo(() => {
+    return STORY.filter((p) => {
+      const matchesType = selectedType === "All" || p.type === selectedType;
+      const matchesSearch =
+        `${p.title} ${p.summary} ${p.tags.join(" ")}`
+          .toLowerCase()
+          .includes(search.toLowerCase());
+      return matchesType && matchesSearch;
+    });
+  }, [selectedType, search]);
+
+  return (
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(34,211,238,0.12),_transparent_35%),radial-gradient(circle_at_bottom_right,_rgba(168,85,247,0.12),_transparent_30%),linear-gradient(180deg,#05060a_0%,#090b12_100%)] text-zinc-100">
+      <div className="mx-auto max-w-7xl px-4 py-6 md:px-6 md:py-10">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]"
+        >
+          <Card className="overflow-hidden border-zinc-800 bg-zinc-950/70 shadow-2xl shadow-black/30 backdrop-blur">
+            <CardContent className="p-0">
+              <div className="grid gap-0 lg:grid-cols-[0.9fr_1.1fr]">
+                <div className="relative min-h-[420px] border-b border-zinc-800 lg:border-b-0 lg:border-r">
+                  <img
+                    src={PROFILE.photo}
+                    alt={PROFILE.name}
+                    className="h-full w-full object-cover opacity-90"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/35 to-transparent" />
+                  <div className="absolute left-4 top-4 flex gap-2">
+                    <Badge className="bg-cyan-500/15 text-cyan-300 hover:bg-cyan-500/20">Open to Relocate</Badge>
+                    <Badge className="bg-fuchsia-500/15 text-fuchsia-300 hover:bg-fuchsia-500/20">Game UI</Badge>
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
+                    <p className="mb-2 inline-flex items-center gap-2 rounded-full border border-zinc-800 bg-zinc-950/70 px-3 py-1 text-xs text-zinc-300">
+                      <Sparkles className="h-3.5 w-3.5 text-amber-300" />
+                      Welcome to the campaign
+                    </p>
+                    <h1 className="text-3xl font-semibold tracking-tight md:text-5xl">{PROFILE.name}</h1>
+                    <p className="mt-3 max-w-xl text-base leading-7 text-zinc-300 md:text-lg">{PROFILE.title}</p>
+                    <p className="mt-2 text-sm text-zinc-400">{PROFILE.subtitle}</p>
+                  </div>
+                </div>
+
+                <div className="p-6 md:p-8">
+                  <div className="flex items-center gap-2 text-sm text-zinc-400">
+                    <Terminal className="h-4 w-4 text-cyan-300" />
+                    Mission Brief
+                  </div>
+                  <h2 className="mt-2 text-2xl font-semibold">What this site feels like</h2>
+                  <div className="mt-4 space-y-3">
+                    {QUESTS.map((q, i) => (
+                      <div key={q} className="flex items-start gap-3 rounded-2xl border border-zinc-800 bg-zinc-900/50 p-3">
+                        <div className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-zinc-800 text-xs text-zinc-300">{i + 1}</div>
+                        <p className="text-sm leading-6 text-zinc-300">{q}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-5 grid grid-cols-2 gap-3 text-sm">
+                    <InfoTile label="Location" value={PROFILE.location} />
+                    <InfoTile label="Phone" value={PROFILE.phone} />
+                    <InfoTile label="Email" value={PROFILE.email} />
+                    <InfoTile label="Headline" value="Portfolio Game" />
+                  </div>
+
+                  <div className="mt-5 rounded-3xl border border-zinc-800 bg-zinc-900/40 p-4">
+                    <div className="flex items-center gap-2 text-sm text-zinc-400">
+                      <Layers3 className="h-4 w-4 text-violet-300" />
+                      Features included
+                    </div>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {FEATURES.map((f) => (
+                        <Badge key={f} variant="secondary" className="border-zinc-700 bg-zinc-950 text-zinc-300">
+                          {f}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-zinc-800 bg-zinc-950/70 shadow-2xl shadow-black/30 backdrop-blur">
+            <CardContent className="p-6 md:p-8">
+              <div className="flex items-center gap-2 text-sm text-zinc-400">
+                <BadgeCheck className="h-4 w-4 text-emerald-300" />
+                Power Stats
+              </div>
+              <h3 className="mt-2 text-2xl font-semibold">Your toolkit</h3>
+              <div className="mt-5 grid grid-cols-2 gap-3">
+                {SKILLS.map((skill) => (
+                  <div key={skill.name} className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-4">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-zinc-300">{skill.name}</span>
+                      <span className="text-zinc-400">{skill.value}%</span>
+                    </div>
+                    <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-zinc-800">
+                      <motion.div
+                        className="h-full rounded-full bg-gradient-to-r from-cyan-400 via-indigo-400 to-fuchsia-400"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${skill.value}%` }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        <div className="mt-6 grid gap-6 lg:grid-cols-[0.88fr_1.12fr]">
+          <Card className="border-zinc-800 bg-zinc-950/70 shadow-2xl shadow-black/30 backdrop-blur">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <div className="flex items-center gap-2 text-sm text-zinc-400">
+                    <MapPinned className="h-4 w-4 text-fuchsia-300" />
+                    Story Map
+                  </div>
+                  <h3 className="mt-1 text-xl font-semibold">Choose a chapter</h3>
+                </div>
+                <div className="flex items-center gap-2 rounded-full border border-zinc-800 bg-zinc-900/70 px-3 py-2 text-xs text-zinc-400">
+                  <Search className="h-3.5 w-3.5" />
+                  <input
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Search story"
+                    className="w-32 bg-transparent outline-none placeholder:text-zinc-600"
+                  />
+                </div>
+              </div>
+
+              <div className="mt-4 flex flex-wrap gap-2">
+                {types.map((item) => (
+                  <button
+                    key={item}
+                    onClick={() => setSelectedType(item)}
+                    className={`rounded-full border px-3 py-1.5 text-xs transition ${
+                      selectedType === item
+                        ? "border-cyan-400/60 bg-cyan-500/15 text-cyan-200"
+                        : "border-zinc-800 bg-zinc-950 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200"
+                    }`}
+                  >
+                    {item}
+                  </button>
+                ))}
+              </div>
+
+              <div className="mt-5 max-h-[760px] space-y-3 overflow-y-auto pr-1">
+                {filtered.map((story, index) => {
+                  const Icon = story.icon;
+                  return (
+                    <motion.button
+                      key={story.id}
+                      whileHover={{ scale: 1.01 }}
+                      whileTap={{ scale: 0.99 }}
+                      onClick={() => setSelectedStory(story)}
+                      className={`w-full rounded-2xl border p-4 text-left transition ${
+                        selectedStory.id === story.id
+                          ? "border-cyan-400/60 bg-cyan-500/10"
+                          : "border-zinc-800 bg-zinc-900/40 hover:border-zinc-700 hover:bg-zinc-900/70"
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <Icon className="h-4 w-4 text-cyan-300" />
+                            <span className="text-lg font-semibold">{story.title}</span>
+                            {story.featured && (
+                              <Badge className="bg-amber-500/15 text-amber-200 hover:bg-amber-500/20">Featured</Badge>
+                            )}
+                          </div>
+                          <p className="mt-1 text-sm text-zinc-400">{story.chapter} · {story.year}</p>
+                          <p className="mt-2 text-sm leading-6 text-zinc-300">{story.summary}</p>
+                          <div className="mt-3 flex flex-wrap gap-2">
+                            {story.tags.map((tag) => (
+                              <Badge key={tag} variant="secondary" className="border-zinc-700 bg-zinc-950 text-zinc-300">
+                                {tag}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="text-right text-sm text-zinc-500">
+                          <div>{story.difficulty}</div>
+                          <div className="mt-1">{index + 1}</div>
+                        </div>
+                      </div>
+                    </motion.button>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={selectedStory.id}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+            >
+              <Card className="h-full border-zinc-800 bg-zinc-950/70 shadow-2xl shadow-black/30 backdrop-blur">
+                <CardContent className="p-6 md:p-8">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                      <div className="flex items-center gap-2 text-sm text-zinc-400">
+                        <Rocket className="h-4 w-4 text-cyan-300" />
+                        Selected Chapter
+                      </div>
+                      <h3 className="mt-1 text-2xl font-semibold">{selectedStory.title}</h3>
+                    </div>
+                    <Badge className="bg-emerald-500/15 text-emerald-200 hover:bg-emerald-500/20">
+                      {selectedStory.status}
+                    </Badge>
+                  </div>
+
+                  <p className="mt-4 text-zinc-300 leading-7">{selectedStory.summary}</p>
+
+                  <div className="mt-5 grid gap-4 md:grid-cols-3">
+                    <InfoTile label="Difficulty" value={selectedStory.difficulty} />
+                    <InfoTile label="Impact" value={selectedStory.impact} />
+                    <InfoTile label="Badge" value={selectedStory.badge} />
+                  </div>
+
+                  <div className="mt-5 rounded-3xl border border-zinc-800 bg-[linear-gradient(180deg,rgba(24,24,27,0.9),rgba(9,9,11,0.85))] p-5">
+                    <div className="flex items-center gap-2 text-sm text-zinc-400">
+                      <Star className="h-4 w-4 text-amber-300" />
+                      Mission details
+                    </div>
+                    <div className="mt-4 space-y-2 text-sm text-zinc-300">
+                      {selectedStory.details.map((item) => (
+                        <div key={item} className="flex items-start gap-2">
+                          <Zap className="mt-0.5 h-4 w-4 text-cyan-300" />
+                          <span>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mt-6 flex flex-wrap gap-3">
+                    <Button asChild className="rounded-2xl bg-cyan-500 text-zinc-950 hover:bg-cyan-400">
+                      <a href={selectedStory.link} target="_blank" rel="noreferrer">
+                        <ExternalLink className="mr-2 h-4 w-4" />
+                        {selectedStory.linkLabel}
+                      </a>
+                    </Button>
+                    <Button asChild variant="outline" className="rounded-2xl border-zinc-700 bg-zinc-950 text-zinc-100 hover:bg-zinc-900">
+                      <a href={PROFILE.github} target="_blank" rel="noreferrer">
+                        <Github className="mr-2 h-4 w-4" />
+                        GitHub
+                      </a>
+                    </Button>
+                    <Button asChild variant="ghost" className="rounded-2xl text-zinc-300 hover:bg-zinc-900 hover:text-white">
+                      <a href="#contact">
+                        <ArrowRight className="mr-2 h-4 w-4" />
+                        Contact
+                      </a>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        <div id="contact" className="mt-6 grid gap-4 md:grid-cols-3">
+          <Card className="border-zinc-800 bg-zinc-950/70 shadow-2xl shadow-black/30 backdrop-blur md:col-span-2">
+            <CardContent className="p-6 md:p-8">
+              <div className="flex items-center gap-2 text-sm text-zinc-400">
+                <Mail className="h-4 w-4 text-fuchsia-300" />
+                Final Screen
+              </div>
+              <h3 className="mt-1 text-2xl font-semibold">A strong ending for recruiters</h3>
+              <p className="mt-3 max-w-2xl text-zinc-300 leading-7">
+                This version positions you as a business analytics leader who blends data storytelling, automation, and process improvement. It also makes USC Athletics the boss-level highlight.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Button className="rounded-2xl bg-white text-zinc-950 hover:bg-zinc-200">
+                  <a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
+                </Button>
+                <Button variant="outline" className="rounded-2xl border-zinc-700 bg-zinc-950 text-zinc-100 hover:bg-zinc-900" asChild>
+                  <a href={PROFILE.linkedin} target="_blank" rel="noreferrer">
+                    <Linkedin className="mr-2 h-4 w-4" />
+                    LinkedIn
+                  </a>
+                </Button>
+                <Button variant="outline" className="rounded-2xl border-zinc-700 bg-zinc-950 text-zinc-100 hover:bg-zinc-900" asChild>
+                  <a href={PROFILE.github} target="_blank" rel="noreferrer">
+                    <Github className="mr-2 h-4 w-4" />
+                    GitHub
+                  </a>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-zinc-800 bg-zinc-950/70 shadow-2xl shadow-black/30 backdrop-blur">
+            <CardContent className="p-6 md:p-8">
+              <div className="flex items-center gap-2 text-sm text-zinc-400">
+                <Lock className="h-4 w-4 text-emerald-300" />
+                Hidden Bonus
+              </div>
+              <div className="mt-2 text-xl font-semibold">Easter egg idea</div>
+              <p className="mt-3 text-sm leading-6 text-zinc-400">
+                Add a secret button that reveals your full resume PDF, a fun intro video, or a mini dashboard preview.
+              </p>
+              <div className="mt-4 rounded-2xl border border-dashed border-zinc-700 bg-zinc-900/40 p-4 text-sm text-zinc-300">
+                Make the site feel like a game level, not a static resume.
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function InfoTile({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-4">
+      <div className="text-xs uppercase tracking-wider text-zinc-500">{label}</div>
+      <div className="mt-2 text-sm font-semibold text-zinc-100 leading-6">{value}</div>
+    </div>
+  );
+}
     header{
       display:flex;
       align-items:baseline;
