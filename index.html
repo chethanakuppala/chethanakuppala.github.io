@@ -1,1013 +1,192 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="Chethana Kuppala — interactive portfolio with roles, skills, and projects presented like a game story." />
-  <title>Chethana Kuppala — Interactive Portfolio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #05060a;
-      --bg2: #090b12;
-      --panel: rgba(14, 17, 26, 0.82);
-      --panel-2: rgba(18, 22, 34, 0.86);
-      --line: rgba(255,255,255,0.08);
-      --text: #eef2ff;
-      --muted: #a3adc2;
-      --cyan: #22d3ee;
-      --violet: #a855f7;
-      --emerald: #34d399;
-      --amber: #fbbf24;
-      --fuchsia: #e879f9;
-      --shadow: 0 24px 80px rgba(0,0,0,0.35);
-      --radius: 24px;
-      --radius-sm: 16px;
-      --max: 1180px;
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at top, rgba(34, 211, 238, 0.14), transparent 28%),
-        radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.16), transparent 24%),
-        radial-gradient(circle at 20% 80%, rgba(52, 211, 153, 0.12), transparent 26%),
-        linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    a { color: inherit; text-decoration: none; }
-    button { font: inherit; }
-
-    .wrap {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 24px;
-    }
-
-    .topbar {
-      position: sticky;
-      top: 16px;
-      z-index: 20;
-      margin-bottom: 22px;
-      backdrop-filter: blur(18px);
-    }
-
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 14px 18px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: rgba(6, 8, 14, 0.62);
-      box-shadow: var(--shadow);
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
-
-    .avatar-mini {
-      width: 40px;
-      height: 40px;
-      border-radius: 14px;
-      object-fit: cover;
-      border: 1px solid rgba(255,255,255,0.12);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-    }
-
-    .brand-text strong {
-      display: block;
-      font-size: 0.96rem;
-      letter-spacing: 0.02em;
-    }
-
-    .brand-text span {
-      display: block;
-      color: var(--muted);
-      font-size: 0.82rem;
-      margin-top: 2px;
-    }
-
-    .navlinks {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      justify-content: flex-end;
-    }
-
-    .navlinks a, .navlinks button {
-      border: 1px solid transparent;
-      color: var(--muted);
-      background: transparent;
-      padding: 10px 14px;
-      border-radius: 999px;
-      cursor: pointer;
-      transition: 0.2s ease;
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-
-    .navlinks a:hover, .navlinks button:hover {
-      color: var(--text);
-      border-color: rgba(255,255,255,0.09);
-      background: rgba(255,255,255,0.03);
-    }
-
-    .navlinks .cta {
-      color: #06101a;
-      background: linear-gradient(135deg, var(--cyan), var(--violet));
-      border-color: transparent;
-      box-shadow: 0 18px 40px rgba(34, 211, 238, 0.18);
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 20px;
-      align-items: stretch;
-      margin-top: 10px;
-    }
-
-    .panel {
-      border: 1px solid var(--line);
-      background: var(--panel);
-      backdrop-filter: blur(16px);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    .hero-main {
-      padding: 28px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .hero-main::after {
-      content: "";
-      position: absolute;
-      inset: auto -20% -20% auto;
-      width: 260px;
-      height: 260px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(34,211,238,0.22), transparent 60%);
-      pointer-events: none;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: var(--muted);
-      font-size: 0.82rem;
-      font-weight: 600;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 142px 1fr;
-      gap: 22px;
-      margin-top: 18px;
-      align-items: center;
-    }
-
-    .hero-photo {
-      width: 142px;
-      height: 176px;
-      border-radius: 24px;
-      object-fit: cover;
-      border: 1px solid rgba(255,255,255,0.12);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(2.2rem, 5vw, 4.5rem);
-      line-height: 0.95;
-      letter-spacing: -0.05em;
-    }
-
-    .subtitle {
-      margin: 14px 0 0;
-      font-size: 1.06rem;
-      line-height: 1.7;
-      color: var(--muted);
-      max-width: 58ch;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 22px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 16px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.09);
-      background: rgba(255,255,255,0.03);
-      color: var(--text);
-      cursor: pointer;
-      transition: 0.2s ease;
-      font-weight: 700;
-    }
-
-    .btn:hover { transform: translateY(-1px); }
-    .btn.primary {
-      color: #041019;
-      background: linear-gradient(135deg, var(--cyan), #60a5fa);
-      border: none;
-    }
-
-    .hero-side {
-      padding: 20px;
-      display: grid;
-      gap: 14px;
-      align-content: start;
-    }
-
-    .metric-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-
-    .metric {
-      padding: 16px;
-      border-radius: 18px;
-      background: var(--panel-2);
-      border: 1px solid rgba(255,255,255,0.07);
-    }
-
-    .metric strong {
-      display: block;
-      font-size: 1.35rem;
-      margin-top: 6px;
-    }
-
-    .metric span {
-      color: var(--muted);
-      font-size: 0.82rem;
-    }
-
-    .mini-note {
-      padding: 16px;
-      border-radius: 18px;
-      background: linear-gradient(180deg, rgba(34,211,238,0.07), rgba(168,85,247,0.06));
-      border: 1px solid rgba(255,255,255,0.08);
-      color: #dbeafe;
-      line-height: 1.7;
-    }
-
-    .section {
-      margin-top: 22px;
-      padding: 24px;
-    }
-
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: end;
-      margin-bottom: 16px;
-    }
-
-    .section-head h2 {
-      margin: 0;
-      font-size: 1.7rem;
-      letter-spacing: -0.03em;
-    }
-
-    .section-head p {
-      margin: 0;
-      color: var(--muted);
-      max-width: 60ch;
-      line-height: 1.6;
-    }
-
-    .skill-wrap {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .skill {
-      padding: 16px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .skill-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    .bar {
-      height: 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.08);
-      overflow: hidden;
-    }
-
-    .fill {
-      height: 100%;
-      border-radius: inherit;
-      background: linear-gradient(90deg, var(--cyan), var(--violet), var(--fuchsia));
-    }
-
-    .filters {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .chip {
-      padding: 10px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.03);
-      color: var(--muted);
-      cursor: pointer;
-      font-weight: 700;
-      transition: 0.2s ease;
-    }
-
-    .chip.active {
-      color: #06111a;
-      background: linear-gradient(135deg, var(--cyan), var(--emerald));
-      border-color: transparent;
-    }
-
-    .timeline {
-      display: grid;
-      gap: 12px;
-    }
-
-    .role-card {
-      display: grid;
-      grid-template-columns: 120px 1fr;
-      gap: 16px;
-      padding: 18px;
-      border-radius: 20px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      cursor: pointer;
-      transition: 0.2s ease;
-    }
-
-    .role-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(34,211,238,0.25);
-      background: rgba(255,255,255,0.05);
-    }
-
-    .role-tag {
-      display: inline-flex;
-      margin-bottom: 10px;
-      font-size: 0.78rem;
-      color: #06111a;
-      background: linear-gradient(135deg, var(--amber), #fb7185);
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-weight: 800;
-    }
-
-    .role-card h3 {
-      margin: 0;
-      font-size: 1.1rem;
-    }
-
-    .role-meta {
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin-top: 6px;
-    }
-
-    .role-copy {
-      margin-top: 10px;
-      color: #dbe2f2;
-      line-height: 1.7;
-    }
-
-    .role-bullets {
-      margin: 12px 0 0;
-      padding-left: 18px;
-      color: #d6def0;
-      line-height: 1.7;
-    }
-
-    .project-layout {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 16px;
-    }
-
-    .project-list {
-      display: grid;
-      gap: 12px;
-    }
-
-    .project-card {
-      padding: 18px;
-      border-radius: 20px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      cursor: pointer;
-      transition: 0.2s ease;
-    }
-
-    .project-card.active {
-      border-color: rgba(34,211,238,0.35);
-      background: linear-gradient(180deg, rgba(34,211,238,0.08), rgba(168,85,247,0.05));
-    }
-
-    .project-card h3 {
-      margin: 0;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 1.08rem;
-    }
-
-    .project-card p {
-      margin: 10px 0 0;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .tag {
-      padding: 7px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: #dbe2f2;
-      font-size: 0.82rem;
-      font-weight: 600;
-    }
-
-    .detail {
-      padding: 20px;
-      border-radius: 22px;
-      background: linear-gradient(180deg, rgba(10,14,24,0.95), rgba(7,9,14,0.95));
-      border: 1px solid rgba(255,255,255,0.08);
-      position: sticky;
-      top: 96px;
-      align-self: start;
-    }
-
-    .detail h3 {
-      margin: 8px 0 10px;
-      font-size: 1.5rem;
-    }
-
-    .detail p {
-      color: #d9e2f3;
-      line-height: 1.75;
-    }
-
-    .detail ul {
-      margin: 14px 0 0;
-      padding-left: 18px;
-      color: #dbe2f0;
-      line-height: 1.8;
-    }
-
-    .detail-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 18px;
-    }
-
-    .detail-actions a, .detail-actions button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px 14px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(255,255,255,0.03);
-      color: var(--text);
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .detail-actions .primary {
-      color: #07111a;
-      background: linear-gradient(135deg, var(--cyan), #a78bfa);
-      border: none;
-    }
-
-    .contact {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .contact-card {
-      padding: 18px;
-      border-radius: 20px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .contact-card strong {
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    .footer {
-      padding: 18px 6px 32px;
-      color: var(--muted);
-      text-align: center;
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(14px);
-      transition: 0.6s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    @media (max-width: 980px) {
-      .hero, .project-layout, .contact, .skill-wrap {
-        grid-template-columns: 1fr;
-      }
-      .hero-grid {
-        grid-template-columns: 1fr;
-      }
-      .hero-photo {
-        width: 100%;
-        height: 240px;
-      }
-      .detail {
-        position: static;
-      }
-      .role-card {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 720px) {
-      .wrap { padding: 14px; }
-      .nav { border-radius: 22px; flex-direction: column; align-items: stretch; }
-      .navlinks { justify-content: flex-start; }
-      .section { padding: 18px; }
-      .section-head { flex-direction: column; align-items: start; }
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Chethana Kuppala — Interactive Portfolio</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#07080c;
+  color:#fff;
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:30px;
+}
+
+/* HERO */
+.hero{
+  display:flex;
+  gap:30px;
+  align-items:center;
+  margin-bottom:40px;
+}
+
+.hero img{
+  width:180px;
+  border-radius:20px;
+}
+
+.hero h1{font-size:32px;margin:0}
+.hero p{color:#aaa}
+
+/* SECTION */
+.section{
+  margin-bottom:40px;
+}
+
+.section h2{
+  margin-bottom:15px;
+  color:#00d4ff;
+}
+
+/* CARDS */
+.card{
+  background:#11131a;
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:12px;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.card:hover{
+  transform:scale(1.02);
+  background:#151823;
+}
+
+/* DETAILS PANEL */
+.details{
+  background:#0d0f16;
+  padding:20px;
+  border-radius:12px;
+  margin-top:15px;
+  display:none;
+}
+
+/* SKILLS */
+.skill{
+  margin-bottom:10px;
+}
+
+.bar{
+  height:8px;
+  background:#222;
+  border-radius:10px;
+}
+
+.fill{
+  height:8px;
+  background:#00d4ff;
+  border-radius:10px;
+}
+
+/* LINKS */
+a{
+  color:#00d4ff;
+  text-decoration:none;
+}
+</style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="topbar">
-      <div class="nav panel">
-        <div class="brand">
-          <img class="avatar-mini" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80" alt="Chethana Kuppala photo">
-          <div class="brand-text">
-            <strong>Chethana Kuppala</strong>
-            <span>Data Storyteller · Process Optimizer · Analytics Builder</span>
-          </div>
-        </div>
-        <div class="navlinks">
-          <a href="#skills">Skills</a>
-          <a href="#roles">Roles</a>
-          <a href="#projects">Projects</a>
-          <a href="#contact">Contact</a>
-          <a class="cta" href="https://github.com/chethanakuppala" target="_blank" rel="noopener">GitHub</a>
-        </div>
-      </div>
-    </div>
 
-    <section class="hero">
-      <div class="panel hero-main reveal">
-        <span class="eyebrow">Open to Relocate · Columbia, SC</span>
-        <div class="hero-grid">
-          <img class="hero-photo" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=80" alt="Portrait of Chethana Kuppala">
-          <div>
-            <h1>Turning complex data into strategic wins.</h1>
-            <p class="subtitle">I build dashboards, automate workflows, and translate finance and operations data into decisions leaders can trust. This portfolio is designed like a game story: each role is a chapter, each project is a mission, and USC Athletics is the boss level.</p>
-            <div class="hero-actions">
-              <a class="btn primary" href="#projects">Start the story</a>
-              <a class="btn" href="mailto:ckuppala@email.sc.edu">Email me</a>
-              <a class="btn" href="https://www.linkedin.com/in/chethanakuppala/" target="_blank" rel="noopener">LinkedIn</a>
-            </div>
-          </div>
-        </div>
-      </div>
+<div class="container">
 
-      <aside class="panel hero-side reveal">
-        <div class="metric-grid">
-          <div class="metric"><span>Dashboards built</span><strong>10+</strong></div>
-          <div class="metric"><span>Hours saved / month</span><strong>20+</strong></div>
-          <div class="metric"><span>Forecast gain</span><strong>20%</strong></div>
-          <div class="metric"><span>Reporting access</span><strong>30%</strong></div>
-        </div>
-        <div class="mini-note">
-          Highlight: your strongest story is the mix of <b>analytics, automation, and stakeholder communication</b>. That combination should show up everywhere on the page.
-        </div>
-      </aside>
-    </section>
+<!-- HERO -->
+<div class="hero">
+  <!-- ✅ YOUR PHOTO HERE -->
+  <img src="IMG_5476.jpeg" />
 
-    <section id="skills" class="panel section reveal">
-      <div class="section-head">
-        <div>
-          <h2>Power Stats</h2>
-          <p>Show the tools that power your work, then keep the rest of the page focused on the outcomes those tools create.</p>
-        </div>
-      </div>
-      <div class="skill-wrap">
-        <div class="skill"><div class="skill-top"><span>SQL</span><span>93%</span></div><div class="bar"><div class="fill" style="width:93%"></div></div></div>
-        <div class="skill"><div class="skill-top"><span>Power BI</span><span>95%</span></div><div class="bar"><div class="fill" style="width:95%"></div></div></div>
-        <div class="skill"><div class="skill-top"><span>Python</span><span>86%</span></div><div class="bar"><div class="fill" style="width:86%"></div></div></div>
-        <div class="skill"><div class="skill-top"><span>Excel</span><span>90%</span></div><div class="bar"><div class="fill" style="width:90%"></div></div></div>
-        <div class="skill"><div class="skill-top"><span>Power Automate</span><span>84%</span></div><div class="bar"><div class="fill" style="width:84%"></div></div></div>
-        <div class="skill"><div class="skill-top"><span>RPA</span><span>78%</span></div><div class="bar"><div class="fill" style="width:78%"></div></div></div>
-        <div class="skill"><div class="skill-top"><span>SAS</span><span>80%</span></div><div class="bar"><div class="fill" style="width:80%"></div></div></div>
-        <div class="skill"><div class="skill-top"><span>R</span><span>76%</span></div><div class="bar"><div class="fill" style="width:76%"></div></div></div>
-      </div>
-    </section>
+  <div>
+    <h1>Chethana Kuppala</h1>
+    <p><b>Data Storyteller · Process Optimizer · Analytics Builder</b></p>
+    <p>I turn complex data into dashboards, automation, and decisions leaders trust.</p>
 
-    <section id="roles" class="panel section reveal">
-      <div class="section-head">
-        <div>
-          <h2>Career Campaign</h2>
-          <p>Each card is one role. Clicking a role updates the mission panel on the right.</p>
-        </div>
-      </div>
-
-      <div class="filters" id="roleFilters"></div>
-
-      <div class="project-layout">
-        <div class="timeline" id="roleList"></div>
-        <div class="detail" id="roleDetail"></div>
-      </div>
-    </section>
-
-    <section id="projects" class="panel section reveal">
-      <div class="section-head">
-        <div>
-          <h2>Projects</h2>
-          <p>Your project section should show variety: BI, research, analytics, IoT, and leadership. The boss project gets the biggest treatment.</p>
-        </div>
-      </div>
-
-      <div class="filters" id="projectFilters"></div>
-
-      <div class="project-layout">
-        <div class="project-list" id="projectList"></div>
-        <div class="detail" id="projectDetail"></div>
-      </div>
-    </section>
-
-    <section id="contact" class="panel section reveal">
-      <div class="section-head">
-        <div>
-          <h2>Contact Terminal</h2>
-          <p>Keep this ending short, confident, and easy to act on.</p>
-        </div>
-      </div>
-      <div class="contact">
-        <div class="contact-card">
-          <strong>Email</strong>
-          <a href="mailto:ckuppala@email.sc.edu">ckuppala@email.sc.edu</a>
-        </div>
-        <div class="contact-card">
-          <strong>Links</strong>
-          <a href="https://github.com/chethanakuppala" target="_blank" rel="noopener">GitHub</a><br>
-          <a href="https://www.linkedin.com/in/chethanakuppala/" target="_blank" rel="noopener">LinkedIn</a>
-        </div>
-      </div>
-    </section>
-
-    <div class="footer">
-      Built as a story-driven portfolio with dark game UI, roles, skills, and projects.
-    </div>
+    <p>
+      <a href="https://github.com/chethanakuppala">GitHub</a> |
+      <a href="https://www.linkedin.com/in/chethanakuppala/">LinkedIn</a>
+    </p>
   </div>
+</div>
 
-  <script>
-    const ROLES = [
-      {
-        type: "Leadership",
-        title: "Project Manager & Analytics Storyteller — USC Athletics",
-        meta: "2025 – Present · Columbia, SC",
-        summary: "This is the boss level and your strongest story. You analyze ticketing and financial data, build dashboards, improve forecast accuracy, and turn findings into executive-ready storytelling.",
-        bullets: [
-          "Analyzed revenue and fan engagement trends using SQL and R.",
-          "Built Power BI dashboards for revenue streams, KPI performance, and fan behavior.",
-          "Improved forecast accuracy by 20% through variance and trend analysis.",
-          "Presented strategic findings to leadership in concise, decision-ready language."
-        ],
-        accent: "Boss Level"
-      },
-      {
-        type: "Analytics",
-        title: "Graduate Assistant – Data Analyst — Student Success Center",
-        meta: "Aug 2025 – Present · University of South Carolina",
-        summary: "You streamlined finance and operational reporting by building and maintaining dashboards, improving access to strategic insights, and automating recurring workflows.",
-        bullets: [
-          "Designed and maintained 10+ interactive Power BI dashboards.",
-          "Improved reporting access by 30% for leadership.",
-          "Added SQL validation controls to reduce reporting errors by 15%.",
-          "Automated recurring reporting with Power Automate and RPA-style workflows."
-        ],
-        accent: "Live"
-      },
-      {
-        type: "Research",
-        title: "Graduate Research Assistant — Arnold School of Public Health",
-        meta: "Jan 2025 – May 2025 · University of South Carolina",
-        summary: "You used SQL and Python to analyze large utilization datasets, validate financial outputs, and communicate findings to non-technical audiences.",
-        bullets: [
-          "Performed regression and trend analysis on large-scale utilization datasets.",
-          "Validated and reconciled financial data for 100% reporting consistency.",
-          "Built Power BI and SAS visualizations for executive audiences.",
-          "Supported cost-pattern evaluation and workflow improvement recommendations."
-        ],
-        accent: "Completed"
-      },
-      {
-        type: "Analytics",
-        title: "Graduate Assistant (Analytics) — Molinaroli College of Engineering",
-        meta: "Jan 2025 – May 2025 · University of South Carolina",
-        summary: "You improved reporting accuracy, automated ETL preparation, and created KPI dashboards to support planning and budget decisions.",
-        bullets: [
-          "Built SQL-driven validation and governance checks.",
-          "Improved reporting accuracy by 15%.",
-          "Automated data preparation and ETL workflows using Python and Power Automate.",
-          "Translated operational metrics into strategic findings for senior leadership."
-        ],
-        accent: "Completed"
-      },
-      {
-        type: "Systems",
-        title: "Business Systems Analyst — Mobile Farmers Market",
-        meta: "Jan 2024 – May 2024 · IIT Department · Remote",
-        summary: "You designed SQL-based data models, streamlined ETL workflows, and improved reporting turnaround time while communicating clearly with cross-functional stakeholders.",
-        bullets: [
-          "Designed SQL-based data models for operational reporting.",
-          "Improved reporting turnaround time by 20%.",
-          "Implemented data validation and reconciliation checks.",
-          "Presented concise process improvement recommendations to program leadership."
-        ],
-        accent: "Applied"
-      },
-      {
-        type: "Research",
-        title: "Graduate Research and Teaching Assistant — IIT Department",
-        meta: "Jan 2023 – May 2023 · Remote",
-        summary: "You used statistical analysis, QA checks, and data storytelling to strengthen reporting accuracy and support planning initiatives.",
-        bullets: [
-          "Performed regression and trend analysis on multi-year planning datasets.",
-          "Improved data reliability with QA checks and validation procedures.",
-          "Created structured reports and visualizations for varied audiences.",
-          "Supported finance and operational planning initiatives."
-        ],
-        accent: "Foundation"
-      }
-    ];
+<!-- STORY -->
+<div class="section">
+<h2>🎮 Portfolio Story (Click Missions)</h2>
 
-    const PROJECTS = [
-      {
-        type: "Boss",
-        title: "USC Athletics: Fan & Ticketing Analytics",
-        meta: "Project Manager & Analytics Storyteller",
-        summary: "A high-impact project where you combine revenue analysis, forecasting, and dashboarding to help leadership make smarter decisions.",
-        details: [
-          "Analyzed ticketing and financial data using SQL and R.",
-          "Built Power BI dashboards for executive visibility.",
-          "Improved forecast accuracy by 20%.",
-          "Turned variance analysis into story-driven recommendations."
-        ],
-        tags: ["SQL", "R", "Power BI", "Forecasting"],
-        link: "https://github.com/chethanakuppala"
-      },
-      {
-        type: "BI",
-        title: "Student Success Dashboards",
-        meta: "Graduate Assistant – Data Analyst",
-        summary: "A dashboard suite for finance and operations reporting that reduced manual effort and increased leadership visibility.",
-        details: [
-          "Built 10+ Power BI dashboards.",
-          "Added validation checks to improve accuracy.",
-          "Automated reporting workflows with Power Automate.",
-          "Saved 20+ hours of manual effort each month."
-        ],
-        tags: ["Power BI", "SQL", "Automation", "RPA"],
-        link: "mailto:ckuppala@email.sc.edu"
-      },
-      {
-        type: "Research",
-        title: "Health Utilization Analysis",
-        meta: "Graduate Research Assistant",
-        summary: "SQL, Python, and SAS analysis for large datasets supporting cost-pattern evaluation and clear executive reporting.",
-        details: [
-          "Ran regression and trend analysis.",
-          "Validated and reconciled reporting outputs.",
-          "Created accessible visualizations for stakeholders.",
-          "Improved reporting quality and consistency."
-        ],
-        tags: ["Python", "SQL", "SAS", "Visualization"],
-        link: "#contact"
-      },
-      {
-        type: "IoT",
-        title: "Cisco Packet Tracer IoT Mission",
-        meta: "Connected device simulation",
-        summary: "A hands-on networking and IoT simulation project that shows systems thinking beyond dashboards.",
-        details: [
-          "Simulated connected devices and event-driven behavior.",
-          "Mapped a practical IoT workflow.",
-          "Showcased technical problem-solving and simulation design.",
-          "Added variety to your portfolio beyond BI work."
-        ],
-        tags: ["Cisco Packet Tracer", "IoT", "Networking", "Simulation"],
-        link: "#contact"
-      },
-      {
-        type: "Business",
-        title: "Mobile Farmers Market Operations",
-        meta: "Business Systems Analyst",
-        summary: "A systems and reporting project focused on SQL models, ETL workflow redesign, and decision support.",
-        details: [
-          "Designed SQL-based data models.",
-          "Improved reporting turnaround time by 20%.",
-          "Applied RPA concepts to workflow redesign.",
-          "Delivered concise recommendations to leadership."
-        ],
-        tags: ["SQL", "ETL", "RPA", "Process Improvement"],
-        link: "#contact"
-      }
-    ];
+<div class="card" onclick="openCard(0)">
+  Chapter 01 — Dashboard Builder
+</div>
 
-    const roleFilters = ["All", ...new Set(ROLES.map(r => r.type))];
-    const projectFilters = ["All", ...new Set(PROJECTS.map(p => p.type))];
+<div class="card" onclick="openCard(1)">
+  Chapter 02 — Research Analyst
+</div>
 
-    let selectedRoleFilter = "All";
-    let selectedProjectFilter = "All";
-    let selectedRole = ROLES[0];
-    let selectedProject = PROJECTS[0];
+<div class="card" onclick="openCard(2)">
+  Chapter 03 — Operations Engineer
+</div>
 
-    const roleFiltersEl = document.getElementById('roleFilters');
-    const roleListEl = document.getElementById('roleList');
-    const roleDetailEl = document.getElementById('roleDetail');
-    const projectFiltersEl = document.getElementById('projectFilters');
-    const projectListEl = document.getElementById('projectList');
-    const projectDetailEl = document.getElementById('projectDetail');
+<div class="card" onclick="openCard(3)">
+  Chapter 04 — Market Strategist
+</div>
 
-    function renderChips(container, items, selected, setter) {
-      container.innerHTML = items.map(item => `
-        <button class="chip ${item === selected ? 'active' : ''}" data-value="${item}">${item}</button>
-      `).join('');
-      container.querySelectorAll('button').forEach(btn => {
-        btn.addEventListener('click', () => setter(btn.dataset.value));
-      });
-    }
+<div class="card" onclick="openCard(4)">
+  Chapter 05 — Cisco IoT Mission
+</div>
 
-    function renderRoles() {
-      const filtered = selectedRoleFilter === 'All' ? ROLES : ROLES.filter(r => r.type === selectedRoleFilter);
-      roleListEl.innerHTML = filtered.map((role, idx) => `
-        <article class="role-card" data-index="${ROLES.indexOf(role)}">
-          <div>
-            <span class="role-tag">${role.accent}</span>
-            <h3>${role.title}</h3>
-            <div class="role-meta">${role.meta}</div>
-          </div>
-          <div>
-            <div class="role-copy">${role.summary}</div>
-          </div>
-        </article>
-      `).join('');
-      roleListEl.querySelectorAll('.role-card').forEach(card => {
-        card.addEventListener('click', () => {
-          selectedRole = ROLES[Number(card.dataset.index)];
-          renderRoleDetail();
-          highlightActiveRole();
-        });
-      });
-      highlightActiveRole();
-    }
+<div class="card" onclick="openCard(5)">
+  🏆 Boss Level — USC Athletics
+</div>
 
-    function highlightActiveRole() {
-      roleListEl.querySelectorAll('.role-card').forEach(card => {
-        card.style.outline = ROLES[Number(card.dataset.index)] === selectedRole ? '1px solid rgba(34,211,238,0.55)' : 'none';
-      });
-    }
+<div id="details" class="details"></div>
 
-    function renderRoleDetail() {
-      roleDetailEl.innerHTML = `
-        <span class="eyebrow">${selectedRole.accent}</span>
-        <h3>${selectedRole.title}</h3>
-        <p>${selectedRole.summary}</p>
-        <ul>${selectedRole.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
-        <div class="detail-actions">
-          <a class="primary" href="#projects">See matching projects</a>
-          <a href="https://github.com/chethanakuppala" target="_blank" rel="noopener">GitHub</a>
-        </div>
-      `;
-    }
+</div>
 
-    function renderProjects() {
-      const filtered = selectedProjectFilter === 'All' ? PROJECTS : PROJECTS.filter(p => p.type === selectedProjectFilter);
-      projectListEl.innerHTML = filtered.map((project, idx) => `
-        <article class="project-card ${project === selectedProject ? 'active' : ''}" data-index="${PROJECTS.indexOf(project)}">
-          <h3>${project.title}</h3>
-          <div class="role-meta">${project.meta}</div>
-          <p>${project.summary}</p>
-          <div class="tags">${project.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
-        </article>
-      `).join('');
-      projectListEl.querySelectorAll('.project-card').forEach(card => {
-        card.addEventListener('click', () => {
-          selectedProject = PROJECTS[Number(card.dataset.index)];
-          renderProjectDetail();
-          highlightActiveProject();
-        });
-      });
-      highlightActiveProject();
-    }
+<!-- SKILLS -->
+<div class="section">
+<h2>⚡ Skills</h2>
 
-    function highlightActiveProject() {
-      projectListEl.querySelectorAll('.project-card').forEach(card => {
-        card.classList.toggle('active', PROJECTS[Number(card.dataset.index)] === selectedProject);
-      });
-    }
+<div class="skill">SQL<div class="bar"><div class="fill" style="width:93%"></div></div></div>
+<div class="skill">Power BI<div class="bar"><div class="fill" style="width:95%"></div></div></div>
+<div class="skill">Python<div class="bar"><div class="fill" style="width:86%"></div></div></div>
+<div class="skill">Excel<div class="bar"><div class="fill" style="width:90%"></div></div></div>
 
-    function renderProjectDetail() {
-      projectDetailEl.innerHTML = `
-        <span class="eyebrow">${selectedProject.type}</span>
-        <h3>${selectedProject.title}</h3>
-        <p>${selectedProject.summary}</p>
-        <ul>${selectedProject.details.map(d => `<li>${d}</li>`).join('')}</ul>
-        <div class="tags">${selectedProject.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
-        <div class="detail-actions">
-          <a class="primary" href="${selectedProject.link}" target="_blank" rel="noopener">Open link</a>
-          <button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact</button>
-        </div>
-      `;
-    }
+</div>
 
-    function setRoleFilter(value) {
-      selectedRoleFilter = value;
-      renderChips(roleFiltersEl, roleFilters, selectedRoleFilter, setRoleFilter);
-      renderRoles();
-    }
+<!-- CONTACT -->
+<div class="section">
+<h2>📬 Contact</h2>
+<p>Email: <a href="mailto:ckuppala@email.sc.edu">ckuppala@email.sc.edu</a></p>
+</div>
 
-    function setProjectFilter(value) {
-      selectedProjectFilter = value;
-      renderChips(projectFiltersEl, projectFilters, selectedProjectFilter, setProjectFilter);
-      renderProjects();
-    }
+</div>
 
-    renderChips(roleFiltersEl, roleFilters, selectedRoleFilter, setRoleFilter);
-    renderChips(projectFiltersEl, projectFilters, selectedProjectFilter, setProjectFilter);
-    renderRoles();
-    renderRoleDetail();
-    renderProjects();
-    renderProjectDetail();
+<script>
+const data = [
+`Built 10+ Power BI dashboards, improved reporting access by 30%, and automated workflows saving 20+ hours/month.`,
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, { threshold: 0.12 });
+`Performed SQL + Python analysis, improved reporting accuracy, and delivered executive insights.`,
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-  </script>
+`Automated ETL workflows, improved reporting efficiency, and built KPI dashboards.`,
+
+`Designed SQL data models and improved reporting turnaround by 20%.`,
+
+`Built Cisco Packet Tracer IoT system with connected devices and simulation logic.`,
+
+`Analyzed ticketing & revenue data, improved forecast accuracy by 20%, built executive dashboards.`
+];
+
+function openCard(i){
+  const box = document.getElementById("details");
+  box.style.display = "block";
+  box.innerHTML = data[i];
+}
+</script>
+
 </body>
 </html>
